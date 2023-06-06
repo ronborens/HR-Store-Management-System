@@ -1,0 +1,15 @@
+<.header>
+  Listing Employees
+</.header>
+
+<.table
+  id="employees"
+  rows={@streams.employees}
+>
+    <:col :let={{_id, employee}} label="Employeeid"><%= employee.employeeid %></:col>
+    <:col :let={{_id, employee}} label="Lastname"><%= employee.lastname %></:col>
+    <:col :let={{_id, employee}} label="Firstname"><%= employee.firstname %></:col>
+    <:col :let={{_id, employee}} label="Dateofhire"><%= employee.dateofhire %></:col>
+    <:col :let={{_id, employee}} label="Department"><%= employee.department %></:col>
+
+</.table>

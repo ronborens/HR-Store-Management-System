@@ -1,0 +1,8 @@
+<.header>
+  New Employee
+  <:subtitle>Use this form to manage employee records in your database.</:subtitle>
+</.header>
+
+<.employee_form changeset={@changeset} action={~p"/employees"} />
+
+<.back navigate={~p"/employees"}>Back to employees</.back>

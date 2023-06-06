@@ -1,0 +1,58 @@
+<head>
+<style>
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-gap: 15px;
+}
+
+.grid-item{
+  text-align: left;
+}
+</style>
+</head>
+
+
+<.header>
+  Store <%= @store.id %>
+  <:subtitle>This is a store record from your database.</:subtitle>
+  <:actions>
+    <.link patch={~p"/stores/#{@store}/show/edit"} phx-click={JS.push_focus()}>
+      <.button>Edit store</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.list>
+  <:item title="Storenum"><%= @store.storenum %></:item>
+  <:item title="Location"><%= @store.location %></:item>
+  <:item :if={@store.products} title="Products">
+    <div class= "grid-container">
+      <div class= "grid-container"><strong>Name</strong></div>
+      <div class= "grid-container"><strong>Vendor</strong></div>
+      <div class= "grid-container"><strong>Retail Price</strong></div>
+      <div class= "grid-container"><strong>Wholesale Price</strong></div>
+      <div class= "grid-container"><strong>Inventory Count</strong></div>
+      <%= for product <- @store.products do %>
+        <div class= "grid-item"><%= product.name %></div>
+        <div class= "grid-item"><%= product.vendor %></div>
+        <div class= "grid-item"><%= product.retail_price %></div>
+        <div class= "grid-item"><%= product.wholesale_price %></div>
+        <div class= "grid-item"><%= product.inventory_count %></div>
+      <% end %>
+    </div>
+  </:item>
+</.list>
+
+<.back navigate={~p"/stores"}>Back to stores</.back>
+
+<.modal :if={@live_action == :edit} id="store-modal" show on_cancel={JS.patch(~p"/stores/#{@store}")}>
+  <.live_component
+    module={StoreManagementSystemWeb.StoreLive.FormComponent}
+    id={@store.id}
+    title={@page_title}
+    action={@live_action}
+    store={@store}
+    patch={~p"/stores/#{@store}"}
+  />
+</.modal>

@@ -1,0 +1,8 @@
+<.header>
+  Edit Employee <%= @employee.id %>
+  <:subtitle>Use this form to manage employee records in your database.</:subtitle>
+</.header>
+
+<.employee_form changeset={@changeset} action={~p"/employees/#{@employee}"} />
+
+<.back navigate={~p"/employees"}>Back to employees</.back>

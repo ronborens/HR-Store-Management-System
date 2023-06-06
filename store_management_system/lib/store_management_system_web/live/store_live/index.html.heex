@@ -1,0 +1,42 @@
+<.header>
+  Listing Stores
+  <:actions>
+    <.link patch={~p"/stores/new"}>
+      <.button>New Store</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.table
+  id="stores"
+  rows={@streams.stores}
+  row_click={fn {_id, store} -> JS.navigate(~p"/stores/#{store}") end}
+>
+  <:col :let={{_id, store}} label="Storenum"><%= store.storenum %></:col>
+  <:col :let={{_id, store}} label="Location"><%= store.location %></:col>
+  <:action :let={{_id, store}}>
+    <div class="sr-only">
+      <.link navigate={~p"/stores/#{store}"}>Show</.link>
+    </div>
+    <.link patch={~p"/stores/#{store}/edit"}>Edit</.link>
+  </:action>
+  <:action :let={{id, store}}>
+    <.link
+      phx-click={JS.push("delete", value: %{id: store.id}) |> hide("##{id}")}
+      data-confirm="Are you sure?"
+    >
+      Delete
+    </.link>
+  </:action>
+</.table>
+
+<.modal :if={@live_action in [:new, :edit]} id="store-modal" show on_cancel={JS.patch(~p"/stores")}>
+  <.live_component
+    module={StoreManagementSystemWeb.StoreLive.FormComponent}
+    id={@store.id || :new}
+    title={@page_title}
+    action={@live_action}
+    store={@store}
+    patch={~p"/stores"}
+  />
+</.modal>
